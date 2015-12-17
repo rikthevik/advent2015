@@ -1,16 +1,22 @@
 
 import re
 
-def is_nice(s):
+def first_is_nice(s):
     num_vowels = len(re.subn(r'[^aeiou]', '', s)[0])
     has_double = re.match(r'.*(\w)\1.*', s)
     has_bad = any( bad in s for bad in ("ab", "cd", "pq", "xy") )
     # print s, (num_vowels >= 3), has_double, (not has_bad)
     return (num_vowels >= 3) and (has_double is not None) and (not has_bad)
 
+def second_is_nice(s):
+    has_repeated_double = re.match(r'.*(\w\w).*\1.*', s)
+    has_repeat_w_space = re.match(r'.*(\w).\1.*', s)
+    # print s, (has_repeated_double is not None) and (has_repeat_w_space is not None)
+    return (has_repeated_double is not None) and (has_repeat_w_space is not None)
+
 def main(inputstr):
     inputstr = inputstr.lower()
-    num_nice = sum( 1 for l in inputstr.lower().splitlines() if is_nice(l) )
+    num_nice = sum( 1 for l in inputstr.lower().splitlines() if second_is_nice(l.strip()) )
     print num_nice
 
 
@@ -1020,3 +1026,7 @@ main("jchzalrnumimnmhp")
 main("haegwjzuvuyypxyu")
 main("dvszwmarrgswjxmb")
 
+main("""qjhvhtzxzqqjkmpb
+xxyxx
+uurcxstgmygtbstg
+ieodomkazucvgmuy""")
