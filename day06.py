@@ -2,9 +2,9 @@
 import re
 
 
-fn_turn_on = lambda v: True
-fn_toggle = lambda v: not v
-fn_turn_off = lambda v: False
+fn_turn_on = lambda v: v+1
+fn_toggle = lambda v: v+2
+fn_turn_off = lambda v: max(0, v-1)
 
 def main(inputstr):
     matrix = [ [ False for j in range(1000)] for i in range(1000) ]
@@ -15,13 +15,16 @@ def main(inputstr):
             fn = fn_turn_on
         elif l.startswith("toggle"):
             fn = fn_toggle
-        else:
+        elif l.startswith("turn off"):
             fn = fn_turn_off
+        else:
+            assert 0
         for row_idx in range(start_row, end_row+1):
             for col_idx in range(start_col, end_col+1):
                 matrix[row_idx][col_idx] = fn(matrix[row_idx][col_idx])
     print sum( sum(col) for col in matrix )
 
+main("""turn on 0,0 through 0,0""")
 main("""turn on 0,0 through 999,999
 toggle 0,0 through 999,0
 turn off 499,499 through 500,500""")
