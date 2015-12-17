@@ -2,10 +2,17 @@
 
 def main(inputstr):
     tot = 0
+    print
     for l, w, h in (map(int, l.strip().split("x")) for l in inputstr.splitlines()):
         surface_area = 2*l*w + 2*w*h + 2*h*l
         extra = min(l*w, w*h, h*l)
-        tot += surface_area + extra
+        # tot += surface_area + extra
+
+        min_perim = 2*min(l+w, w+h, h+l)
+        volume = l*w*h
+        tot += min_perim + volume
+        print l,w,h,"::",min_perim, volume
+
     print tot
 
 main("""3x11x24
@@ -1009,4 +1016,4 @@ main("""3x11x24
 24x25x17
 14x6x11""")
 
-# main("2x3x4\n1x1x10")
+main("2x3x4\n1x1x10")
