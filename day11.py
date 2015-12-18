@@ -27,7 +27,7 @@ def is_valid(l):
     if any( letter in l for letter in reject_letters ):
         assert 0
         return False
-    return has_straight(l) and has_double(l)
+    return has_straight(l) and has_doubles(l)
 
 def has_straight(l):
     for triple in zip(l[:-2], l[1:-1], l[2:]):
@@ -36,7 +36,7 @@ def has_straight(l):
             return True
     return False
 
-def has_double(l):
+def has_doubles(l):
     f = None
     for i, double in enumerate(zip(l[:-1], l[1:])):
         if double[1] - double[0] == 0:
