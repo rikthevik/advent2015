@@ -18,8 +18,9 @@ def main(inputstr):
             total_dist += distances[frozenset({city, next_city})]
         dist_and_ordering.append((total_dist, " -> ".join(city_order)))
 
-    print dist_and_ordering
+    # print dist_and_ordering
     print min(dist_and_ordering)
+    print max(dist_and_ordering)
 
 
 main("""London to Dublin = 464
