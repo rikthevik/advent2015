@@ -8,6 +8,7 @@ class Runner(object):
         self.fly = int(fly_str)
         self.rest = int(rest_str)
         self.period = self.fly + self.rest
+        self.points = 0
     def travelled(self, numsecs):
         return self.speed * (int(numsecs / self.period)*self.fly + min(numsecs % self.period, self.fly))
 
@@ -16,8 +17,18 @@ def main(numsecs, inputstr):
     runners = []
     for l in inputstr.splitlines():
         runners.append(Runner(*re.match(l_regex, l).groups()))
-    dist_and_name = [ (r.travelled(numsecs), r.name) for r in runners ]
-    print list(sorted(dist_and_name, reverse=1))
+
+    for currsec in range(1, numsecs+1):
+        dists = list(sorted(( (r.travelled(currsec), r) for r in runners ), reverse=1))
+        for max_dist, dist_runners in itertools.groupby(dists, key=lambda t: t[0]):
+            for d, r in dist_runners:
+                r.points += 1
+            break
+
+    for r in runners:
+        print r.name, r.points
+
+    print "-"*80
 
 
 main(1000, """Comet can fly 14 km/s for 10 seconds, but then must rest for 127 seconds.
