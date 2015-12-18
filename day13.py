@@ -11,6 +11,10 @@ def main(inputstr):
         all_people.add(left)
         all_people.add(right)
 
+    for person in all_people:
+        happiness[frozenset({person, "ME"})] = 0
+    all_people.add("ME")
+
     total_and_ordering = []
     for people_ordering in itertools.imap(list, itertools.permutations(all_people)):
         total = 0
