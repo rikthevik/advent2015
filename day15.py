@@ -23,20 +23,25 @@ def main(combo_fn, inputstr):
     for l in inputstr.splitlines():
         groups = l_regex.match(l).groups()
         name = groups[0]
-        allprops.append(map(int, groups[1:5]))
+        allprops.append(map(int, groups[1:6]))
+    print allprops
 
     max_score, max_combo = 0, None
     for combo in combo_fn(100):
-    # for combo in [ (44, 56) ]:
+    # for combo in [ (40, 60) ]:
         scores = []
         for amount, cookie in zip(combo, allprops):
             scores.append([ amount*prop for prop in cookie ])
-        # print combo, scores
+        # print "!!", combo, scores
         added_props = [ max(0, sum(col)) for col in zip(*scores) ]
-        # print added_props
-        total_score = reduce(lambda a,b: a*b, added_props)
+        # print "##", added_props
+        total_score = reduce(lambda a,b: a*b, added_props[:-1])  # Remove calories.
+        total_cals = added_props[-1]
+
+        # print total_cals
+
         # print total_score
-        if total_score > max_score:
+        if total_cals == 500 and total_score > max_score:
             max_score = total_score
             max_combo = combo
         # break
