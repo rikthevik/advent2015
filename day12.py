@@ -3,9 +3,10 @@ import json
 
 def leaves(d):
     if isinstance(d, dict):
-        for k, v in d.iteritems():
-            for a in leaves(v):
-                yield a
+        if "red" not in d.values():
+            for k, v in d.iteritems():
+                for a in leaves(v):
+                    yield a
     elif isinstance(d, list):
         for item in d:
             for a in leaves(item):
