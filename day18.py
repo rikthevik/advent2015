@@ -6,30 +6,35 @@ def out(grid):
     print
 
 def get_grid(grid, rowidx, colidx):
+    s = len(grid)-1
     if rowidx < 0 or rowidx >= len(grid):
         return False
     elif colidx < 0 or colidx >= len(grid):
         return False
+    elif (rowidx, colidx) in ((0, 0), (0, s), (s, s), (s, 0)):
+        return True
     else:
         return grid[rowidx][colidx]
 
 def step(grid):
     newgrid = [ [ False for colval in row ] for row in grid ]
+    s = len(grid)-1
     for rowidx in range(len(grid)):
         for colidx in range(len(grid)):
             if (rowidx, colidx) == (0, 2):
                 pass
-
             closeby = [ get_grid(grid, r, c) for r, c in [
                 (rowidx-1, colidx-1), (rowidx-1, colidx), (rowidx-1, colidx+1),
                 (rowidx, colidx-1),                       (rowidx, colidx+1),
                 (rowidx+1, colidx-1), (rowidx+1, colidx), (rowidx+1, colidx+1),
             ]]
-            curr_val = grid[rowidx][colidx]
+            curr_val = get_grid(grid, rowidx, colidx)
             num_closeby = sum(closeby)
             if curr_val is True and num_closeby in (2, 3):
                 newgrid[rowidx][colidx] = True
             elif curr_val is False and num_closeby == 3:
+                newgrid[rowidx][colidx] = True
+            elif (rowidx, colidx) in ((0, 0), (0, s), (s, s), (s, 0)):
                 newgrid[rowidx][colidx] = True
 
     return newgrid
@@ -56,6 +61,12 @@ main(4, """.#.#.#
 ..#...
 #.#..#
 ####..""")
+main(5, """##.#.#
+...##.
+#....#
+..#...
+#.#..#
+####.#""")
 main(100, """####.#.##.###.#.#.##.#..###.#..#.#.#..##....#.###...##..###.##.#.#.#.##...##..#..#....#.#.##..#...##
 .##...##.##.######.#.#.##...#.#.#.#.#...#.##.#..#.#.####...#....#....###.#.#.#####....#.#.##.#.#.##.
 ###.##..#..#####.......#.########...#.####.###....###.###...#...####.######.#..#####.#.###....####..
