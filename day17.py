@@ -8,6 +8,8 @@ def main(target, inputstr):
         for combo in itertools.combinations(containers, i):
             if sum(combo) == target:
                 satisfied_count += 1
+        if satisfied_count > 0:
+            break
     print satisfied_count
 
 
